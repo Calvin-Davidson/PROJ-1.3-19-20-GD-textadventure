@@ -4,7 +4,6 @@ body{
 
 .container{
   width: 600px;
-  margin: auto;
   background-color: aliceblue;
   padding: 20px;
   border: blue 3px solid;
@@ -16,4 +15,14 @@ body{
   color: red;
   font-size: 30px;
   font-weight: bold;
+}
+
+
+
+.inventory{
+  width: 600px;
+  background-color: aliceblue;
+  padding: 20px;
+  border: blue 3px solid;
+  border-radius: 10px;
 }

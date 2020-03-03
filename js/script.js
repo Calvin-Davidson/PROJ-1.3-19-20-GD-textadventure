@@ -4,7 +4,7 @@ const myInput = document.getElementById('myInput');
 const feedback = document.getElementById('feedback');
 const imageLocation = document.getElementById('imageLocation');
 const myDescription = document.getElementById('description');
-const myInventory = document.getElementById('inventory');
+const inv = document.getElementById('inv');
 
 let currentLocation = 4;
 
@@ -119,3 +119,4 @@ function removeFeedback() {
 }
 
 giveLocation();
+
