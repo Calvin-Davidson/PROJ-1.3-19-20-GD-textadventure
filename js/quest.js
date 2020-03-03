@@ -191,8 +191,10 @@ function getInput(e) {
             ErrorMSG.innerHTML = "Invalid movement";
 
             setTimeout(function () {
-                ErrorMSG.innerHTML = "";
-            }, 1000);
+                if (ErrorMSG.innerHTML == "Invalid movement") {
+                    ErrorMSG.innerHTML = "";
+                }
+            }, 1500);
         }
 
         update();
@@ -206,6 +208,8 @@ function invalidItems() {
     ErrorMSG.innerHTML = "U heeft niet de juiste items om deze kamer in te gaan";
 
     setTimeout(function () {
-        ErrorMSG.innerHTML = "";
-    }, 1000);
+        if (ErrorMSG.innerHTML == "U heeft niet de juiste items om deze kamer in te gaan") {
+            ErrorMSG.innerHTML = "";
+        }
+    }, 3000);
 }
