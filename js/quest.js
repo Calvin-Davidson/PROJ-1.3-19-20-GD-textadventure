@@ -2,15 +2,17 @@ const imageLocation = document.getElementById('imageLocation');
 const myInput = document.getElementById('myInput');
 const myOptions = document.getElementById('possibilities');
 const inv = document.getElementById('inv');
+const ErrorMSG = document.getElementById("error");
 
 let inventory = [];
 
 
 class room {
-    constructor(options, imagePath, items) {
+    constructor(options, imagePath, items, requiredItem) {
         this.options = options;
         this.image = imagePath;
         this.items = items;
+        this.requiredItem = requiredItem;
     }
 }
 
@@ -31,24 +33,24 @@ let grid = [
 
 let rooms = [];
 
-rooms[1] = new room(["down", "right"], "media/room1.png", ["STONE", "IRON"]);
-rooms[2] = new room(["left", "right", "down"], "media/room2.png", []);
-rooms[3] = new room(["left", "down"], "media/room3.png", []);
-rooms[4] = new room(["up", "down", "right"], "media/room4.png", []);
-rooms[5] = new room(["left", "down", "right", "up"], "media/room5.png", []);
-rooms[6] = new room(["left", "down", "up"], "media/room6.png", []);
-rooms[7] = new room(["up", "right"], "media/room7.png", []);
-rooms[8] = new room(["left", "right", "up"], "media/room8.png", []);
-rooms[9] = new room(["left", "up", "floorup"], "media/room9.png", []);
-rooms[10] = new room(["down", "right"], "media/room10.png", []);
-rooms[11] = new room(["left", "right", "down"], "media/room11.png", []);
-rooms[12] = new room(["left", "down"], "media/room12.png", []);
-rooms[13] = new room(["up", "down", "right"], "media/room13.png", []);
-rooms[14] = new room(["left", "down", "right", "up"], "media/room14.png", []);
-rooms[15] = new room(["left", "down", "up"], "media/room15.png", []);
-rooms[16] = new room(["right", "up"], "media/room16.png", []);
-rooms[17] = new room(["left", "right", "up"], "media/room17.png", []);
-rooms[18] = new room(["left", "up", "floordown"], "media/room18.png", []);
+rooms[1] = new room(["down", "right"], "media/room1.png", [], "");
+rooms[2] = new room(["left", "right", "down"], "media/room2.png", ["key"], "");
+rooms[3] = new room(["left", "down"], "media/room3.png", [], "key");
+rooms[4] = new room(["up", "down", "right"], "media/room4.png", [], "");
+rooms[5] = new room(["left", "down", "right", "up"], "media/room5.png", [], "");
+rooms[6] = new room(["left", "down", "up"], "media/room6.png", [], "");
+rooms[7] = new room(["up", "right"], "media/room7.png", [], "");
+rooms[8] = new room(["left", "right", "up"], "media/room8.png", [], "");
+rooms[9] = new room(["left", "up", "floorup"], "media/room9.png", [], "");
+rooms[10] = new room(["down", "right"], "media/room10.png", [], "");
+rooms[11] = new room(["left", "right", "down"], "media/room11.png", [], "");
+rooms[12] = new room(["left", "down"], "media/room12.png", [], "");
+rooms[13] = new room(["up", "down", "right"], "media/room13.png", [], "");
+rooms[14] = new room(["left", "down", "right", "up"], "media/room14.png", [], "");
+rooms[15] = new room(["left", "down", "up"], "media/room15.png", [], "");
+rooms[16] = new room(["right", "up"], "media/room16.png", [], "");
+rooms[17] = new room(["left", "right", "up"], "media/room17.png", [], "");
+rooms[18] = new room(["left", "up", "floordown"], "media/room18.png", [], "");
 
 let currentX = 0;
 let currentY = 0;
@@ -65,18 +67,18 @@ function update() {
     // update options text
     let optionsMSG = "";
     for (let i = 0; i < rooms[getPlayerRoom()].options.length; i++) {
-        optionsMSG += rooms[getPlayerRoom()].options[i] + " "
+        optionsMSG += "<li>" + rooms[getPlayerRoom()].options[i] + "</li>"
     }
 
     if (rooms[getPlayerRoom()].items.length != 0) {
         optionsMSG += "pickup ";
     }
-    myOptions.innerHTML = "your options are: " + optionsMSG;
+    myOptions.innerHTML = optionsMSG;
 
     // update inventory
     let items = "";
     for (let i = 0; i < inventory.length; i++) {
-        items += inventory[i];
+        items += "<li>" + inventory[i] + "</li>";
         if (i + 1 < inventory.length) {
            items += " - "
         }
@@ -107,21 +109,71 @@ function getInput(e) {
             switch (inputArray[0]) {
                 case "down":
                     currentY += 1;
+                    if (rooms[getPlayerRoom()].requiredItem != "") {
+                        if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
+                            currentY -= 1;
+                            invalidItems();
+                        } else {
+                            inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
+                        }
+                    }
                     break;
                 case "right":
                     currentZ += 1;
+                    if (rooms[getPlayerRoom()].requiredItem != "") {
+                        if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
+                            console.log("je hebt niet de juiste items")
+                            currentZ -= 1;
+                            invalidItems();
+                        } else {
+                            inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
+                        }
+                    }
                     break;
                 case "left":
                     currentZ -= 1;
+                    if (rooms[getPlayerRoom()].requiredItem != "") {
+                        if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
+                            currentZ += 1;
+                            invalidItems();
+                        } else {
+                            inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
+                        }
+                    }
                     break;
                 case "up":
                     currentY -= 1;
+                    if (rooms[getPlayerRoom()].requiredItem != "") {
+                        if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
+                            currentY += 1;
+                            invalidItems();
+                        } else {
+                            inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
+                        }
+                    }
                     break;
                 case "floordown":
                     currentX -= 1;
+                    if (rooms[getPlayerRoom()].requiredItem != "") {
+                        if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
+                            currentX += 1;
+                            invalidItems();
+                        } else {
+                            inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
+                        }
+                    }
                     break;
                 case "floorup":
                     currentX += 1;
+                    if (rooms[getPlayerRoom()].requiredItem != "") {
+                        if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
+                            currentX -= 1;
+                            invalidItems();
+                            
+                        } else {
+                            inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
+                        }
+                    }
                     break;
                 case "pickup":
                     let item = Math.floor(Math.random() * rooms[getPlayerRoom()].items.length);
@@ -135,6 +187,12 @@ function getInput(e) {
                     rooms[getPlayerRoom()].items = rooms[getPlayerRoom()].items.filter(el => el !== rooms[getPlayerRoom()].items[item]);
                     break;
             }
+        } else {
+            ErrorMSG.innerHTML = "Invalid movement";
+
+            setTimeout(function () {
+                ErrorMSG.innerHTML = "";
+            }, 1000);
         }
 
         update();
@@ -144,3 +202,10 @@ function getInput(e) {
 
 update();
 
+function invalidItems() {
+    ErrorMSG.innerHTML = "U heeft niet de juiste items om deze kamer in te gaan";
+
+    setTimeout(function () {
+        ErrorMSG.innerHTML = "";
+    }, 1000);
+}
