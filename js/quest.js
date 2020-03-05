@@ -112,7 +112,7 @@ function getInput(e) {
                     if (rooms[getPlayerRoom()].requiredItem != "") {
                         if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
                             currentY -= 1;
-                            invalidItems();
+                            errorMSG("u heeft niet de juiste items om deze kamer in te gaan.");
                         } else {
                             inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
                         }
@@ -124,7 +124,7 @@ function getInput(e) {
                         if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
                             console.log("je hebt niet de juiste items")
                             currentZ -= 1;
-                            invalidItems();
+                            errorMSG("u heeft niet de juiste items om deze kamer in te gaan.");
                         } else {
                             inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
                         }
@@ -135,7 +135,7 @@ function getInput(e) {
                     if (rooms[getPlayerRoom()].requiredItem != "") {
                         if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
                             currentZ += 1;
-                            invalidItems();
+                            errorMSG("u heeft niet de juiste items om deze kamer in te gaan.");
                         } else {
                             inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
                         }
@@ -146,7 +146,7 @@ function getInput(e) {
                     if (rooms[getPlayerRoom()].requiredItem != "") {
                         if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
                             currentY += 1;
-                            invalidItems();
+                            errorMSG("u heeft niet de juiste items om deze kamer in te gaan.");
                         } else {
                             inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
                         }
@@ -157,7 +157,7 @@ function getInput(e) {
                     if (rooms[getPlayerRoom()].requiredItem != "") {
                         if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
                             currentX += 1;
-                            invalidItems();
+                            errorMSG("u heeft niet de juiste items om deze kamer in te gaan.");
                         } else {
                             inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
                         }
@@ -168,7 +168,7 @@ function getInput(e) {
                     if (rooms[getPlayerRoom()].requiredItem != "") {
                         if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
                             currentX -= 1;
-                            invalidItems();
+                            errorMSG("u heeft niet de juiste items om deze kamer in te gaan.");
                             
                         } else {
                             inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
@@ -188,13 +188,7 @@ function getInput(e) {
                     break;
             }
         } else {
-            ErrorMSG.innerHTML = "Invalid movement";
-
-            setTimeout(function () {
-                if (ErrorMSG.innerHTML == "Invalid movement") {
-                    ErrorMSG.innerHTML = "";
-                }
-            }, 1500);
+            errorMSG("is dit wel een movement optie?");
         }
 
         update();
@@ -204,11 +198,12 @@ function getInput(e) {
 
 update();
 
-function invalidItems() {
-    ErrorMSG.innerHTML = "U heeft niet de juiste items om deze kamer in te gaan";
+
+let errorMSG = function(msg) {
+    ErrorMSG.innerHTML = msg;
 
     setTimeout(function () {
-        if (ErrorMSG.innerHTML == "U heeft niet de juiste items om deze kamer in te gaan") {
+        if (ErrorMSG.innerHTML == msg) {
             ErrorMSG.innerHTML = "";
         }
     }, 3000);

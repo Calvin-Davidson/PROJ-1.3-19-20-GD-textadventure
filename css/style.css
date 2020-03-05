@@ -19,8 +19,6 @@ body{
   font-weight: bold;
 }
 
-
-
 .extra{
   float:right;
   display: inline-block;
@@ -29,7 +27,6 @@ body{
   padding: 20px;
   border: blue 3px solid;
 }
-
 
 #error {
   color: red;
