@@ -5,6 +5,7 @@ const inv = document.getElementById('inv');
 const ErrorMSG = document.getElementById("error");
 const DescMSG = document.getElementById("beschrijving");
 
+
 let inventory = [];
 
 setInterval(update, 1)
@@ -112,86 +113,34 @@ function getInput(e) {
             }
         }
 
+        let newY = currentY;
+        let newX = currentX;
+        let newZ = currentZ;
+
         if (isOption) {
             console.log("true")
             switch (inputArray[0]) {
                 case "down":
-                    currentY += 1;
-                    if (rooms[getPlayerRoom()].requiredItem != "") {
-                        if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
-                            currentY -= 1;
-                            errorMSG("u heeft niet de juiste items om deze kamer in te gaan.");
-                        } else {
-                            inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
-                        }
-                    }
+                    newY += 1;
                     break;
                 case "right":
-                    currentZ += 1;
-                    if (rooms[getPlayerRoom()].requiredItem != "") {
-                        if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
-                            console.log("je hebt niet de juiste items")
-                            currentZ -= 1;
-                            errorMSG("u heeft niet de juiste items om deze kamer in te gaan.");
-                        } else {
-                            inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
-                        }
-                    }
+                    newZ += 1;
                     break;
                 case "left":
-                    currentZ -= 1;
-                    if (rooms[getPlayerRoom()].requiredItem != "") {
-                        if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
-                            currentZ += 1;
-                            errorMSG("u heeft niet de juiste items om deze kamer in te gaan.");
-                        } else {
-                            inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
-                        }
-                    }
+                    newZ -= 1;
                     break;
                 case "up":
-                    currentY -= 1;
-                    if (rooms[getPlayerRoom()].requiredItem != "") {
-                        if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
-                            currentY += 1;
-                            errorMSG("u heeft niet de juiste items om deze kamer in te gaan.");
-                        } else {
-                            inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
-                        }
-                    }
+                    newY -= 1;
                     break;
                 case "floordown":
-                    currentX -= 1;
-                    if (rooms[getPlayerRoom()].requiredItem != "") {
-                        if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
-                            currentX += 1;
-                            errorMSG("u heeft niet de juiste items om deze kamer in te gaan.");
-                        } else {
-                            inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
-                        }
-                    }
+                    newX -= 1;
                     break;
                 case "floorup":
-                    currentX += 1;
-                    if (rooms[getPlayerRoom()].requiredItem != "") {
-                        if (!(inventory.includes(rooms[getPlayerRoom()].requiredItem))) {
-                            currentX -= 1;
-                            errorMSG("u heeft niet de juiste items om deze kamer in te gaan.");
-
-                        } else {
-                            inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
-                        }
-                    }
+                    newX += 1;
                     break;
                 case "pickup":
                     let item = Math.floor(Math.random() * rooms[getPlayerRoom()].items.length);
-                    console.log(rooms[getPlayerRoom()].items[item]);
-                    console.log(item);
-
-                    // doe het item van de room in jou inventory.
                     inventory.push(rooms[getPlayerRoom()].items[item]);
-
-                    // idk waarom maar zo remove je iets uit de items array van een room... "splice werkte niet"
                     rooms[getPlayerRoom()].items = rooms[getPlayerRoom()].items.filter(el => el !== rooms[getPlayerRoom()].items[item]);
                     break;
             }
@@ -199,12 +148,24 @@ function getInput(e) {
             errorMSG("is dit wel een movement optie?");
         }
 
+        if (rooms[grid[newX][newY][newZ]].requiredItem != "") {
+            if (!(inventory.includes(rooms[grid[newX][newY][newZ]].requiredItem))) {
+                errorMSG("u heeft niet de juiste items om deze kamer in te gaan.\nNodig: " + rooms[grid[newX][newY][newZ]].requiredItem);
+                update();
+                myInput.value = "";
+                return;
+            } else {
+                inventory = inventory.filter(el => el !== rooms[getPlayerRoom()].requiredItem);
+            }
+        }
+        currentX = newX;
+        currentY = newY;
+        currentZ = newZ;
+
         update();
         myInput.value = "";
     }
 }
-
-update();
 
 
 let errorMSG = function (msg) {
