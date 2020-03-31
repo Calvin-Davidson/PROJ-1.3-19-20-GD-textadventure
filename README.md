@@ -1,19 +1,13 @@
 ## MaQuest
-gamedeveloper :[jouw naam]
+gamedeveloper :[Calvin-Davidson]
 
 ### Korte omschrijving van de game
 ...
-
+Een textadventure gemaakt met javascript. 
 ---
-#### Producten Werkproces
-| Product  | Link |
-| ------ |  ------ |
-| Link naar live demo| [LiveDemo]
-| frontend ontwerpen voor computer en smartpnone (pdf) | [Design]
-| Plattegrond van jouw labyrinth            | [Map]
-|<img width=500/>|<img width=300/>|
+
+<http://29150.hosts2.ma-cloud.nl/TextAdventure/>
 
 
-   [View Project]: <http://29150.hosts2.ma-cloud.nl/TextAdventure/>
    
 "# TextAdventure" 
