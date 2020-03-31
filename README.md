@@ -14,7 +14,6 @@ gamedeveloper :[jouw naam]
 |<img width=500/>|<img width=300/>|
 
 
-   [LiveDemo]: <http://29150.hosts2.ma-cloud.nl/TextAdventure/>
-   [Design]: <docs/design.png>
-   [Map]:<docs/map.png>
+   [View Project]: <http://29150.hosts2.ma-cloud.nl/TextAdventure/>
+   
 "# TextAdventure" 
